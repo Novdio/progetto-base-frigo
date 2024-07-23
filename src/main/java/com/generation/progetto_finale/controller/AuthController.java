@@ -1,4 +1,4 @@
-package com.generation.progetto_finale.auth;
+package com.generation.progetto_finale.controller;
 
 import java.util.Collections;
 
