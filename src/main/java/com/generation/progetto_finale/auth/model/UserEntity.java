@@ -32,6 +32,10 @@ public class UserEntity {
 
     private String password;
 
+    private String email;
+
+    private boolean isConfirmed = false;
+
     @Column(unique = true)
     private String confirmationKey;
 
@@ -39,6 +43,7 @@ public class UserEntity {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
+    // creazione confirmationKey
     protected void onCreate() {
         this.confirmationKey = generateConfirmationKey();
     }

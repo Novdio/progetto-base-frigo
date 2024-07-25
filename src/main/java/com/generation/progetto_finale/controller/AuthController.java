@@ -72,11 +72,18 @@ public class AuthController {
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
 
-    @GetMapping("email")
-    public String getMethodName(@RequestParam("username") String username,
+    @GetMapping("/sendNudes")
+    public ResponseEntity<String> sendEmail(@RequestParam("username") String username,
             @RequestParam("key") String confirmationKey) {
 
-        return null;
+        UserEntity user = userRepository.findByUsernameAndConfirmationKey(username, confirmationKey);
+        if (user != null) {
+            user.setConfirmed(true);
+            userRepository.save(user);
+            return ResponseEntity.ok("Account confermato con successo!");
+        } else {
+            return ResponseEntity.status(400).body("Link di conferma non valido");
+        }
     }
 
 }
