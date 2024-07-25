@@ -2,8 +2,10 @@ package com.generation.progetto_finale.auth.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,10 +32,19 @@ public class UserEntity {
 
     private String password;
 
+    @Column(unique = true)
+    private String confirmationKey;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
-    
+    protected void onCreate() {
+        this.confirmationKey = generateConfirmationKey();
+    }
+
+    private String generateConfirmationKey() {
+        return UUID.randomUUID().toString();
+    }
+
 }

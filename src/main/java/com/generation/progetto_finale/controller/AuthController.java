@@ -22,6 +22,8 @@ import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.repository.RoleRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.auth.security.JWTGenerator;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/auth")
@@ -38,14 +40,12 @@ public class AuthController {
     @Autowired
     private JWTGenerator jwtGenerator;
 
-
     @PostMapping("login")
-    public AuthResponseDto login(@RequestBody CredentialsDto loginDto)
-    {
+    public AuthResponseDto login(@RequestBody CredentialsDto loginDto) {
         Authentication user = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                loginDto.getUsername(),
-                loginDto.getPassword()));
+                        loginDto.getUsername(),
+                        loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(user);
 
@@ -55,10 +55,8 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody CredentialsDto registerDto) 
-    {
-        if (userRepository.existsByUsername(registerDto.getUsername())) 
-        {
+    public ResponseEntity<String> register(@RequestBody CredentialsDto registerDto) {
+        if (userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
 
@@ -73,4 +71,12 @@ public class AuthController {
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
+
+    @GetMapping("email")
+    public String getMethodName(@RequestParam("username") String username,
+            @RequestParam("key") String confirmationKey) {
+
+        return null;
+    }
+
 }
