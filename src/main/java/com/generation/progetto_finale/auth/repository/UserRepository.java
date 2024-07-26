@@ -5,12 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.generation.progetto_finale.auth.model.UserEntity;
-import java.util.List;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByUsername(String username);
 
     Boolean existsByUsername(String username);
 
-    UserEntity findByUsernameAndConfirmationKey(String username, String confirmationKey);
+    Optional<UserEntity> findByUsernameAndConfirmationKey(String username, String confirmationKey);
 }

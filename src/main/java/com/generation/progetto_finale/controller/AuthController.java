@@ -10,20 +10,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.progetto_finale.auth.dto.AuthResponseDto;
 import com.generation.progetto_finale.auth.dto.CredentialsDto;
+import com.generation.progetto_finale.auth.dto.mappers.UserService;
 import com.generation.progetto_finale.auth.model.Role;
 import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.repository.RoleRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.auth.security.JWTGenerator;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/auth")
@@ -39,6 +40,8 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JWTGenerator jwtGenerator;
+    @Autowired
+    private UserService uService;
 
     @PostMapping("login")
     public AuthResponseDto login(@RequestBody CredentialsDto loginDto) {
@@ -59,31 +62,22 @@ public class AuthController {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
-
-        UserEntity user = new UserEntity();
-        user.setUsername(registerDto.getUsername());
-        user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
-
         Role roles = roleRepository.findByName("USER").get();
-        user.setRoles(Collections.singletonList(roles));
 
-        userRepository.save(user);
+        UserEntity user = uService.createUser(registerDto.getUsername(),
+                passwordEncoder.encode((registerDto.getPassword())), registerDto.getEmail(),
+                Collections.singletonList(roles));
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
 
-    @GetMapping("/sendNudes")
-    public ResponseEntity<String> sendEmail(@RequestParam("username") String username,
+    @GetMapping("/confirmUser")
+    public ResponseEntity<String> confirmUser(@RequestParam("username") String username,
             @RequestParam("key") String confirmationKey) {
 
-        UserEntity user = userRepository.findByUsernameAndConfirmationKey(username, confirmationKey);
-        if (user != null) {
-            user.setConfirmed(true);
-            userRepository.save(user);
+        if (uService.verifyConfirmationEmail(username, confirmationKey))
             return ResponseEntity.ok("Account confermato con successo!");
-        } else {
-            return ResponseEntity.status(400).body("Link di conferma non valido");
-        }
-    }
 
+        return ResponseEntity.status(400).body("Link di conferma non valido");
+    }
 }

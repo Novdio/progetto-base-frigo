@@ -28,6 +28,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
@@ -36,7 +37,6 @@ public class UserEntity {
 
     private boolean isConfirmed = false;
 
-    @Column(unique = true)
     private String confirmationKey;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -44,11 +44,11 @@ public class UserEntity {
     private List<Role> roles = new ArrayList<>();
 
     // creazione confirmationKey
-    protected void onCreate() {
-        this.confirmationKey = generateConfirmationKey();
-    }
+    // protected void onCreate() {
+    // this.confirmationKey = generateConfirmationKey();
+    // }
 
-    private String generateConfirmationKey() {
+    public static String generateConfirmationKey() {
         return UUID.randomUUID().toString();
     }
 
