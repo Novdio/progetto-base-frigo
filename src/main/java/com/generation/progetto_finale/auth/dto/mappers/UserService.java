@@ -55,8 +55,11 @@ public class UserService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setTo(user.getEmail());
         helper.setSubject("Conferma la tua registrazione");
-        helper.setText("<h1>Clicca sul link per confermare il tuo account: " + confirmationUrl+"</h1>",true);
+        helper.setText( "<button"+" href="+confirmationUrl+">Confirm email</button>",
+                        true);
 
+        
+        
         mailSender.send(message);
     }
 
