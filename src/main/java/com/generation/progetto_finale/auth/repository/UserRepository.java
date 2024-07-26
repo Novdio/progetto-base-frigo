@@ -8,5 +8,8 @@ import com.generation.progetto_finale.auth.model.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByUsername(String username);
+
     Boolean existsByUsername(String username);
+
+    Optional<UserEntity> findByUsernameAndConfirmationKey(String username, String confirmationKey);
 }
