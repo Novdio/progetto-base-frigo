@@ -1,5 +1,6 @@
 package com.generation.progetto_finale.controller;
 
+import java.io.IOException;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.repository.RoleRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.auth.security.JWTGenerator;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
@@ -72,12 +75,16 @@ public class AuthController {
     }
 
     @GetMapping("/confirmUser")
-    public ResponseEntity<String> confirmUser(@RequestParam("username") String username,
-            @RequestParam("key") String confirmationKey) {
+    public void confirmUser(@RequestParam("username") String username,
+            @RequestParam("key") String confirmationKey, HttpServletResponse resp) throws IOException {
 
+                
+    
+            String token = jwtGenerator.generateFirstToken(username);
+            System.out.println(token);
         if (uService.verifyConfirmationEmail(username, confirmationKey))
-            return ResponseEntity.ok("Account confermato con successo!");
+            resp.sendRedirect("http://localhost:4200/confirmation/"+token);
 
-        return ResponseEntity.status(400).body("Link di conferma non valido");
     }
+
 }
