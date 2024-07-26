@@ -16,10 +16,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "user_info")
-public class UserAdditionalInfo 
-{
+public class UserAdditionalInfo {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -29,10 +28,6 @@ public class UserAdditionalInfo
      * TODO:Controllo phone Number
      */
     private String phoneNumber;
-    /**
-     * TODO:Controllo email
-     */
-    private String email;
 
     /**
      * TODO:Controllo età
