@@ -55,11 +55,18 @@ public class UserService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setTo(user.getEmail());
         helper.setSubject("Conferma la tua registrazione");
-        helper.setText( "<button"+" href="+confirmationUrl+">Confirm email</button>",
-                        true);
+        // helper.setText( "<a class=\"mt-8 inline-flex items-center justify-center rounded-xl bg-green-600 py-3 px-6 font-dm text-base font-medium text-white shadow-xl shadow-green-400/75 transition-transform duration-200 ease-in-out hover:scale-[1.02]\" href=\""+ confirmationUrl+ "\">Confirm email</a>",
+        //                 true);
+        String htmlButton = "<a href=\"" + confirmationUrl + "\" style=\"display: inline-block; padding: 10px 20px; font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; background-color: #8CC084; border-radius: 5px; text-decoration: none;\">Confirm email</a>";
+        String emailBody =  "<html><body>" +
+                            "<p>Dear " + user.getUsername() + ",</p>" +
+                            "<p>Please click the button below to confirm your email:</p>" +
+                            htmlButton +
+                            "<p>Thank you!</p>" +
+                            "</body></html>";
 
-        
-        
+        helper.setText(emailBody, true);
+
         mailSender.send(message);
     }
 
@@ -76,10 +83,10 @@ public class UserService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(u.getEmail());
             message.setSubject("Conferma la tua registrazione");
-            message.setText("YIPPI");
+            message.setText("Email confermata, Fitgu® ti da il benvenuto!");
 
             mailSender.send(message);
-
+         
             return true;
         }
 
