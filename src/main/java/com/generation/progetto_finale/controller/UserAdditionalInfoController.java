@@ -20,12 +20,9 @@ import com.generation.progetto_finale.auth.repository.UserAdditionalInfoReposito
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.controller.exceptions.UserNotFoundException;
 
-
-
 @RestController
 @RequestMapping("/info")
-public class UserAdditionalInfoController 
-{
+public class UserAdditionalInfoController {
     @Autowired
     UserAdditionalInfoRepository infoRepo;
     @Autowired
@@ -33,88 +30,49 @@ public class UserAdditionalInfoController
     @Autowired
     UserAdditionalInfoService infoService;
 
-
     @GetMapping("{id}")
-    public UserAdditionalInfoDTO getUserInfo(@PathVariable Integer id) 
-    {
+    public UserAdditionalInfoDTO getUserInfo(@PathVariable Integer id) {
+
         return infoService.toDTO(infoRepo.findById(id).get());
     }
-    
 
-    /**
-     * da chiedere a Stefano il rapporto con user e userid.
-     * 
-     */
     @PostMapping("{id}")
-    public UserAdditionalInfoDTO formUserInfo(@RequestBody UserAdditionalInfoDTO DTO,@PathVariable int id) 
-    {
+    public UserAdditionalInfoDTO formUserInfo(@RequestBody UserAdditionalInfoDTO DTO, @PathVariable int id) {
+
         UserAdditionalInfo infoDaCreare = infoService.toEntity(DTO);
         Optional<UserEntity> u = userRepository.findById(id);
-        if (u.isEmpty()) 
+        if (u.isEmpty())
             throw new UserNotFoundException("User non trovato");
-        //set
+        // set
         infoDaCreare.setUser(u.get());
-        //save
-        infoDaCreare=infoRepo.save(infoDaCreare);
-        
+        // save
+        infoDaCreare = infoRepo.save(infoDaCreare);
+
         return infoService.toDTO(infoDaCreare);
     }
 
     @DeleteMapping("{id}")
-    public void deleteUserAdditionalInfo(@PathVariable int id)
-    {
+    public void deleteUserAdditionalInfo(@PathVariable int id) {
+
         Optional<UserAdditionalInfo> infoDaEliminare = infoRepo.findById(id);
-        if (infoDaEliminare.isEmpty()) 
+        if (infoDaEliminare.isEmpty())
             throw new UserNotFoundException("Informazione User non trovate");
         infoRepo.delete(infoDaEliminare.get());
     }
 
     @PutMapping("{id}")
-    public UserAdditionalInfoDTO putMethodName(@PathVariable int id, @RequestBody UserAdditionalInfoDTO dto) 
-    {
+    public UserAdditionalInfoDTO modifyUserAdditionalInfo(@PathVariable int id,
+            @RequestBody UserAdditionalInfoDTO dto) {
+
         UserAdditionalInfo infoDaModificare = infoService.toEntity(dto);
         Optional<UserEntity> u = userRepository.findById(id);
-        if (u.isEmpty()) 
+        if (u.isEmpty())
             throw new UserNotFoundException("User non trovato");
-        //set
+        // set
         infoDaModificare.setUser(u.get());
-        //save
-        infoDaModificare=infoRepo.save(infoDaModificare);
+        // save
+        infoDaModificare = infoRepo.save(infoDaModificare);
         return infoService.toDTO(infoDaModificare);
     }
-    
 
-
-    // @Autowired
-    // private UserAdditionalInfoService userAdditionalInfoService;
-
-    // @GetMapping("/{id}")
-    // public ResponseEntity<UserAdditionalInfoDTO> getUserAdditionalInfoById(@PathVariable int id) {
-    //     UserAdditionalInfoDTO userAdditionalInfoDTO = userAdditionalInfoService.getUserAdditionalInfoById(id);
-    //     return new ResponseEntity<>(userAdditionalInfoDTO, HttpStatus.OK);
-    // }
-
-    // @GetMapping
-    // public ResponseEntity<List<UserAdditionalInfoDTO>> getAllUserAdditionalInfos() {
-    //     List<UserAdditionalInfoDTO> userAdditionalInfos = userAdditionalInfoService.getAllUserAdditionalInfos();
-    //     return new ResponseEntity<>(userAdditionalInfos, HttpStatus.OK);
-    // }
-
-    // @PostMapping
-    // public ResponseEntity<UserAdditionalInfoDTO> createUserAdditionalInfo(@RequestBody UserAdditionalInfoDTO userAdditionalInfoDTO) {
-    //     UserAdditionalInfoDTO createdUserAdditionalInfo = userAdditionalInfoService.createUserAdditionalInfo(userAdditionalInfoDTO);
-    //     return new ResponseEntity<>(createdUserAdditionalInfo, HttpStatus.CREATED);
-    // }
-
-    // @PutMapping("/{id}")
-    // public ResponseEntity<UserAdditionalInfoDTO> updateUserAdditionalInfo(@PathVariable int id, @RequestBody UserAdditionalInfoDTO userAdditionalInfoDTO) {
-    //     UserAdditionalInfoDTO updatedUserAdditionalInfo = userAdditionalInfoService.updateUserAdditionalInfo(id, userAdditionalInfoDTO);
-    //     return new ResponseEntity<>(updatedUserAdditionalInfo, HttpStatus.OK);
-    // }
-
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<Void> deleteUserAdditionalInfo(@PathVariable int id) {
-    //     userAdditionalInfoService.deleteUserAdditionalInfo(id);
-    //     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    // }
 }
