@@ -43,7 +43,7 @@ public class UserAdditionalInfo {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "calendarEvent")
+    @OneToMany(mappedBy = "calendar_event")
     private List<CalendarEvent> calendars;
 
 }
