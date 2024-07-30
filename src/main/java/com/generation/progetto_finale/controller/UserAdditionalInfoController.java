@@ -18,6 +18,7 @@ import com.generation.progetto_finale.auth.model.UserAdditionalInfo;
 import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.repository.UserAdditionalInfoRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
+import com.generation.progetto_finale.controller.exceptions.UserNotFoundException;
 
 
 
@@ -48,9 +49,11 @@ public class UserAdditionalInfoController
     public UserAdditionalInfoDTO formUserInfo(@RequestBody UserAdditionalInfoDTO DTO,@PathVariable int id) 
     {
         UserAdditionalInfo infoDaCreare = infoService.toEntity(DTO);
-        UserEntity u = userRepository.findById(id).get();
+        Optional<UserEntity> u = userRepository.findById(id);
+        if (u.isEmpty()) 
+            throw new UserNotFoundException("User non trovato");
         //set
-        infoDaCreare.setUser(u);
+        infoDaCreare.setUser(u.get());
         //save
         infoDaCreare=infoRepo.save(infoDaCreare);
         
@@ -60,8 +63,10 @@ public class UserAdditionalInfoController
     @DeleteMapping("{id}")
     public void deleteUserAdditionalInfo(@PathVariable int id)
     {
-        UserAdditionalInfo infoDaEliminare = infoRepo.findById(id).get();
-        infoRepo.delete(infoDaEliminare);
+        Optional<UserAdditionalInfo> infoDaEliminare = infoRepo.findById(id);
+        if (infoDaEliminare.isEmpty()) 
+            throw new UserNotFoundException("Informazione User non trovate");
+        infoRepo.delete(infoDaEliminare.get());
     }
 
     @PutMapping("{id}")
@@ -69,6 +74,8 @@ public class UserAdditionalInfoController
     {
         UserAdditionalInfo infoDaModificare = infoService.toEntity(dto);
         Optional<UserEntity> u = userRepository.findById(id);
+        if (u.isEmpty()) 
+            throw new UserNotFoundException("User non trovato");
         //set
         infoDaModificare.setUser(u.get());
         //save
