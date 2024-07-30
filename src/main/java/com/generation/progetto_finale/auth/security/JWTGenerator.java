@@ -76,4 +76,20 @@ public class JWTGenerator
 		}
 	}
 
+	public String generateFirstToken(String username) 
+	{
+		Date currentDate = new Date();
+		Date expireDate = new Date(currentDate.getTime() + (JWT_DURATION*60*1000));
+		
+		String token = Jwts.builder()
+				.setSubject(username)
+				.claim("roles", "ROLE_USER")
+				.setIssuedAt( new Date())
+				.setExpiration(expireDate)
+				.signWith(key,SignatureAlgorithm.HS512)
+				.compact();
+		System.out.println("New token :");
+		System.out.println(token);
+		return token;
+	}
 }
