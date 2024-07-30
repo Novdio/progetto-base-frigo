@@ -32,6 +32,7 @@ public class UserAdditionalInfo {
     /**
      * TODO:Controllo età
      */
+    private String sex;
     private Integer age;
     private Double weight;
     private Double height;
@@ -41,5 +42,15 @@ public class UserAdditionalInfo {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
+
+    
+
+
+    
+
+    public Double BMI()
+    {
+        return weight/(Math.pow(height, 2));
+    }
 
 }
