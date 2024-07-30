@@ -64,13 +64,13 @@ public class UserAdditionalInfoController {
     public UserAdditionalInfoDTO modifyUserAdditionalInfo(@PathVariable int id,
             @RequestBody UserAdditionalInfoDTO dto) {
 
+        Optional<UserAdditionalInfo> oldInfo = infoRepo.findById(id);
         UserAdditionalInfo infoDaModificare = infoService.toEntity(dto);
-        Optional<UserEntity> u = userRepository.findById(id);
-        if (u.isEmpty())
-            throw new UserNotFoundException("User non trovato");
-        // set
-        infoDaModificare.setUser(u.get());
-        // save
+        if (oldInfo.isEmpty())
+            throw new UserNotFoundException("Informazione User non trovate");
+        infoDaModificare.setId(oldInfo.get().getId());
+        infoDaModificare.setUser(oldInfo.get().getUser());
+
         infoDaModificare = infoRepo.save(infoDaModificare);
         return infoService.toDTO(infoDaModificare);
     }

@@ -3,7 +3,12 @@ package com.generation.progetto_finale.auth.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,13 +28,17 @@ public class CalendarEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // controllo anno bisestile, year non deve essere prima dell'inizio della dieta
     private LocalDate date;
-    private boolean isChecked = false; // se all'inizio è checato
-    private List<Meal> meal; // nome degli spuntini
+    private boolean checked = false;
+
+    @ElementCollection(targetClass = Meal.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "meals", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "meals")
+    private List<Meal> meals; // nome degli spuntini
 
     @ManyToOne
     @JoinColumn(name = "userAdditionalInfo_id")
-    private UserAdditionalInfo calendar_event;
+    private UserAdditionalInfo user;
 
 }

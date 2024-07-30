@@ -12,9 +12,10 @@ public interface CalendarEventMapper {
 
     public static final CalendarEventMapper ISTANCE = Mappers.getMapper(CalendarEventMapper.class);
 
+    @Mapping(target = "date", source = "date", dateFormat = "yyyy-MM-dd")
     CalendarEventDTO toDTO(CalendarEvent u);
 
-    @Mapping(target = "calendar_event", ignore = true)
+    @Mapping(target = "user", ignore = true)
     CalendarEvent toEntity(CalendarEventDTO dto);
 
 }

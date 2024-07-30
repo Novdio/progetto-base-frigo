@@ -10,6 +10,6 @@ import lombok.Data;
 public class CalendarEventDTO {
 
     private String date;
-    private boolean isChecked = false;
-    private List<Meal> meal;
+    private boolean checked = false;
+    private List<Meal> meals;
 }

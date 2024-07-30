@@ -48,7 +48,7 @@ public class CalendarEventController {
         if (u.isEmpty())
             throw new RuntimeErrorException(new Error("No trovato capo"));
 
-        calendarDaCreare.setCalendar_event(u.get());
+        calendarDaCreare.setUser(u.get());
         calendarDaCreare = cRepo.save(calendarDaCreare);
 
         return cServ.toDTO(calendarDaCreare);
@@ -72,7 +72,7 @@ public class CalendarEventController {
         if (u.isEmpty())
             throw new RuntimeErrorException(new Error("cia"));
 
-        calendarDaModificare.setCalendar_event(u.get());
+        calendarDaModificare.setUser(u.get());
         calendarDaModificare = cRepo.save(calendarDaModificare);
         return cServ.toDTO(calendarDaModificare);
     }
