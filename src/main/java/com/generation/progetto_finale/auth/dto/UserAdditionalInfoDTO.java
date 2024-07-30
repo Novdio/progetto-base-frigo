@@ -19,17 +19,17 @@ public class UserAdditionalInfoDTO {
     private Double height;
 
     private List<String> diet;
-    //Aggiungere BMI e IBW
-    public Double getIdealWeight()
-    {
+
+    // Aggiungere BMI e IBW
+    public Double getIdealWeight() {
         switch (sex) {
             case "M":
-                return 50+(0.91*(height-152.4));
+                return 50 + (0.91 * (height - 152.4));
             case "F":
-                return 45.5+(0.91*(height-152.4));
+                return 45.5 + (0.91 * (height - 152.4));
             default:
                 throw new RuntimeException();
-                
+
         }
     }
 }
