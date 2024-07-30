@@ -48,6 +48,7 @@ public class AuthController {
 
     @PostMapping("login")
     public AuthResponseDto login(@RequestBody CredentialsDto loginDto) {
+
         Authentication user = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUsername(),
@@ -62,6 +63,7 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody CredentialsDto registerDto) {
+
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
@@ -78,12 +80,10 @@ public class AuthController {
     public void confirmUser(@RequestParam("username") String username,
             @RequestParam("key") String confirmationKey, HttpServletResponse resp) throws IOException {
 
-                
-    
-            String token = jwtGenerator.generateFirstToken(username);
-            System.out.println(token);
+        String token = jwtGenerator.generateFirstToken(username);
+        System.out.println(token);
         if (uService.verifyConfirmationEmail(username, confirmationKey))
-            resp.sendRedirect("http://localhost:4200/confirmation/"+token);
+            resp.sendRedirect("http://localhost:4200/confirmation/" + token);
 
     }
 
