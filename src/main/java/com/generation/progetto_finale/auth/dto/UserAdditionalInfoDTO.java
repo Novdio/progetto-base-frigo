@@ -15,7 +15,7 @@ public class UserAdditionalInfoDTO {
 
     private String sex;
     private Integer age;
-    private Double weight;
+    private List<Double> weight;
     private Double height;
 
     private List<String> diet;
