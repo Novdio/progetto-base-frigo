@@ -67,10 +67,15 @@ public class AuthController {
         if (userRepository.existsByUsername(registerDto.getUsername())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            return new ResponseEntity<>("Email is taken!", HttpStatus.BAD_REQUEST);
+        }
         Role roles = roleRepository.findByName("USER").get();
 
-        UserEntity user = uService.createUser(registerDto.getUsername(),
-                passwordEncoder.encode((registerDto.getPassword())), registerDto.getEmail(),
+        UserEntity user = uService.createUser(
+                registerDto.getUsername(),
+                registerDto.getEmail(),
+                passwordEncoder.encode((registerDto.getPassword())),
                 Collections.singletonList(roles));
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
