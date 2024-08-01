@@ -74,8 +74,8 @@ public class AuthController {
 
         UserEntity user = uService.createUser(
                 registerDto.getUsername(),
-                registerDto.getEmail(),
                 passwordEncoder.encode((registerDto.getPassword())),
+                registerDto.getEmail(),
                 Collections.singletonList(roles));
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
