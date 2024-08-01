@@ -34,7 +34,7 @@ public class UserAdditionalInfo {
      * TODO:Controllo età
      */
     private Integer age;
-    private Double weight;
+    private List<Double> weight;
     private Double height;
 
     private List<String> diet;
