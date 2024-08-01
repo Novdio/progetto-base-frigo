@@ -33,6 +33,7 @@ public class UserAdditionalInfo {
     /**
      * TODO:Controllo età
      */
+    private String sex;
     private Integer age;
     private Double weight;
     private Double height;
