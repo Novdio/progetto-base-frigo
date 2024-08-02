@@ -29,8 +29,4 @@ public class UserAdditionalInfoDTO {
         }
     }
 
-    public Double getBmi()
-    {
-        return weight/(Math.pow(height, 2));
-    }
 }
