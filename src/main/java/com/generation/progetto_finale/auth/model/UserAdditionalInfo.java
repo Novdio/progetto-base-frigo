@@ -25,20 +25,12 @@ public class UserAdditionalInfo {
     private String name;
     private String surname;
 
-    /**
-     * TODO:Controllo phone Number
-     */
-    private String phoneNumber;
-
-    /**
-     * TODO:Controllo età
-     */
     private String sex;
     private Integer age;
     private List<Double> weight;
     private Double height;
 
-    private List<String> diet;
+    
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
