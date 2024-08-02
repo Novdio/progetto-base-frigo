@@ -11,14 +11,10 @@ public class UserAdditionalInfoDTO {
     private String name;
     private String surname;
 
-    private String phoneNumber;
-
     private String sex;
     private Integer age;
     private Double weight;
     private Double height;
-
-    private List<String> diet;
 
     // Aggiungere BMI e IBW
     public Double getIdealWeight() {
