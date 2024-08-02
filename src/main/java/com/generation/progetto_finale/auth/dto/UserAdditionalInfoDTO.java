@@ -12,7 +12,7 @@ public class UserAdditionalInfoDTO {
     private String surname;
 
     private String sex;
-    private Integer age;
+    private int age;
     private Double weight;
     private Double height;
 
