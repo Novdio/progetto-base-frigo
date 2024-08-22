@@ -59,7 +59,7 @@ public class CalendarEventController {
 
         Optional<CalendarEvent> calendarDaEliminare = cRepo.findById(id);
         if (calendarDaEliminare.isEmpty())
-            throw new RuntimeErrorException(new Error("No trovato capo"));
+            throw new RuntimeErrorException(new Error("Non si può cancellare, non esiste"));
         cRepo.delete(calendarDaEliminare.get());
     }
 
@@ -70,7 +70,7 @@ public class CalendarEventController {
         Optional<UserAdditionalInfo> u = uRepo.findById(id);
 
         if (u.isEmpty())
-            throw new RuntimeErrorException(new Error("cia"));
+            throw new RuntimeErrorException(new Error("non posso modificare"));
 
         calendarDaModificare.setUser(u.get());
         calendarDaModificare = cRepo.save(calendarDaModificare);
