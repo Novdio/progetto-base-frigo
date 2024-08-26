@@ -6,9 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.generation.progetto_finale.auth.dto.MealEntityDTO;
-import com.generation.progetto_finale.auth.dto.UserAdditionalInfoDTO;
 import com.generation.progetto_finale.auth.model.MealEntity;
-import com.generation.progetto_finale.auth.model.UserAdditionalInfo;
 
 @Service
 public class MealService {
@@ -31,15 +29,15 @@ public class MealService {
         return res;
     }
 
-    public MealEntityDTO toDTO(MealEntity meal) {
-        return mapper.toDTO((meal));
+    public MealEntityDTO toDTO(MealEntity user) {
+        return mapper.toDTO((user));
     }
 
-    public List<MealEntityDTO> toDTO(List<MealEntity> meals) {
+    public List<MealEntityDTO> toDTO(List<MealEntity> users) {
 
         List<MealEntityDTO> res = new ArrayList<>();
-        for (MealEntity meal : meals) {
-            res.add(mapper.toDTO(meal));
+        for (MealEntity user : users) {
+            res.add(mapper.toDTO(user));
         }
         return res;
     }
