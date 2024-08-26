@@ -3,6 +3,7 @@ package com.generation.progetto_finale.auth.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class CalendarEvent {
     private LocalDate date;
     private boolean checked = false;
 
-    @OneToMany(mappedBy = "calendar")
+    @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MealEntity> meals;
 
     @ManyToOne

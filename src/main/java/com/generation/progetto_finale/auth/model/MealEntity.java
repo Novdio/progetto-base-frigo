@@ -9,6 +9,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +31,9 @@ public class MealEntity {
     @Enumerated(EnumType.STRING)
     private Meal meal;
 
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "pasto", joinColumns = @JoinColumn(name = "meal_id"))
+    @Column(name = "piatto", nullable = true)
     private List<String> pasti;
 
     @ManyToOne

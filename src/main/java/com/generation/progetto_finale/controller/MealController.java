@@ -52,6 +52,19 @@ public class MealController {
         return mServ.toDTO(mealDaCreare);
     }
 
+    @PutMapping("{id}")
+    public MealEntityDTO modifyMeal(@PathVariable int id, @RequestBody MealEntityDTO dto) {
+
+        MealEntity mealDaModificare = mServ.toEntity(dto);
+        Optional<MealEntity> c = mRepo.findById(id);
+        if (c.isEmpty())
+            throw new RuntimeErrorException(new Error("Non posso modificare meal"));
+        mealDaModificare.setCalendar(c.get().getCalendar());
+        mealDaModificare.setId(id);
+        mealDaModificare = mRepo.save(mealDaModificare);
+        return mServ.toDTO(mealDaModificare);
+    }
+
     @DeleteMapping("{id}")
     public void deleteMeal(@PathVariable int id) {
 
@@ -61,16 +74,4 @@ public class MealController {
         mRepo.delete(mealDaEliminare.get());
     }
 
-    @PutMapping("{id}")
-    public MealEntityDTO modifyMeal(@PathVariable int id, @RequestBody MealEntityDTO dto) {
-
-        MealEntity mealDaModificare = mServ.toEntity(dto);
-        Optional<CalendarEvent> c = cRepo.findById(id);
-
-        if (c.isEmpty())
-            throw new RuntimeErrorException(new Error("non posso modificare"));
-        mealDaModificare.setCalendar(c.get());
-        mealDaModificare = mRepo.save(mealDaModificare);
-        return mServ.toDTO(mealDaModificare);
-    }
 }
