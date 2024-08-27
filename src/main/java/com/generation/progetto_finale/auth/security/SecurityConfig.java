@@ -35,7 +35,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 // .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
                                 // .requestMatchers(HttpMethod.GET,"/api/soloperandrea").hasRole("ANDREA")
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .httpBasic(withDefaults());
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

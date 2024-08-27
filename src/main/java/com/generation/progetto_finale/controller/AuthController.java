@@ -79,7 +79,7 @@ public class AuthController {
         }
         Role roles = roleRepository.findByName("USER").get();
 
-        UserEntity user = uService.createUser(
+        uService.createUser(
                 registerDto.getUsername(),
                 passwordEncoder.encode((registerDto.getPassword())),
                 registerDto.getEmail(),
