@@ -76,4 +76,5 @@ public class IaController {
                 // Stampa del risultato
                 return content;
         }
+
 }
