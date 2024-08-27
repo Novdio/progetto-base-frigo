@@ -12,8 +12,8 @@ public class UserAdditionalInfoDTO {
     private String surname;
 
     private String sex;
-    private int age;
-    private Double weight;
+    private Integer age;
+    private List<Double> weight;
     private Double height;
 
     // Aggiungere BMI e IBW
@@ -29,8 +29,4 @@ public class UserAdditionalInfoDTO {
         }
     }
 
-    public Double getBmi()
-    {
-        return weight/(Math.pow(height, 2));
-    }
 }

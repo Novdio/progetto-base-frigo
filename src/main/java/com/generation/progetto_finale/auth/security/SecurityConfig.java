@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/api/auth/**", "/swagger-ui/**", "/api/v3/api-docs/**",
-                                        "/api/auth/register ", "/api/calenda/**") // gli asterischi sono per gli id
+                                        "/api/auth/register ", "/api/calendar/**") // gli asterischi sono per gli id
                                 .permitAll()
                                 // .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
                                 // .requestMatchers(HttpMethod.GET,"/api/soloperandrea").hasRole("ANDREA")

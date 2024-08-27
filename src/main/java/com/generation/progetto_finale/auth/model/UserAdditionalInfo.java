@@ -2,6 +2,7 @@ package com.generation.progetto_finale.auth.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,16 +28,14 @@ public class UserAdditionalInfo {
 
     private String sex;
     private Integer age;
-    private Double weight;
+    private List<Double> weight;
     private Double height;
-
-    
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CalendarEvent> calendars;
 
 }

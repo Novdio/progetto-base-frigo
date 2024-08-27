@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.generation.progetto_finale.auth.dto.AuthResponseDto;
 import com.generation.progetto_finale.auth.dto.CredentialsDto;
 import com.generation.progetto_finale.auth.dto.mappers.UserService;
@@ -50,7 +48,7 @@ public class AuthController {
     private UserService uService;
 
     @PostMapping("login")
-    public AuthResponseDto login(@RequestBody CredentialsDto loginDto ) {
+    public AuthResponseDto login(@RequestBody CredentialsDto loginDto) {
 
         Authentication user = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -59,13 +57,13 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(user);
 
-        
         UserDetails userDetails = (UserDetails) user.getPrincipal();
-        UserEntity u = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        UserEntity u = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         String token = jwtGenerator.generateToken(user);
 
-        return new AuthResponseDto(token, u.getEmail(),u.getId());
+        return new AuthResponseDto(token, u.getEmail(), u.getId());
     }
 
     @PostMapping("register")
