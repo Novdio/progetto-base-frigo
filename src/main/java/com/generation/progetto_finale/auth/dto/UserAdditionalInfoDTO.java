@@ -11,16 +11,22 @@ public class UserAdditionalInfoDTO {
     private String name;
     private String surname;
 
-    private String phoneNumber;
-
     private String sex;
     private Integer age;
     private List<Double> weight;
     private Double height;
 
-    private List<String> diet;
+    // Aggiungere BMI e IBW
+    public Double getIdealWeight() {
+        switch (sex) {
+            case "M":
+                return 50 + (0.91 * (height - 152.4));
+            case "F":
+                return 45.5 + (0.91 * (height - 152.4));
+            default:
+                throw new RuntimeException();
 
-    
+        }
+    }
 
-    
 }
