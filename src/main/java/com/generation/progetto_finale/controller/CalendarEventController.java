@@ -46,21 +46,12 @@ public class CalendarEventController {
         CalendarEvent calendarDaCreare = cServ.toEntity(DTO);
         Optional<UserAdditionalInfo> u = uRepo.findById(id);
         if (u.isEmpty())
-            throw new RuntimeErrorException(new Error("No trovato capo"));
+            throw new RuntimeErrorException(new Error("Non esiste"));
 
         calendarDaCreare.setUser(u.get());
         calendarDaCreare = cRepo.save(calendarDaCreare);
 
         return cServ.toDTO(calendarDaCreare);
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteCalendarEvent(@PathVariable int id) {
-
-        Optional<CalendarEvent> calendarDaEliminare = cRepo.findById(id);
-        if (calendarDaEliminare.isEmpty())
-            throw new RuntimeErrorException(new Error("No trovato capo"));
-        cRepo.delete(calendarDaEliminare.get());
     }
 
     @PutMapping("{id}")
@@ -70,10 +61,20 @@ public class CalendarEventController {
         Optional<UserAdditionalInfo> u = uRepo.findById(id);
 
         if (u.isEmpty())
-            throw new RuntimeErrorException(new Error("cia"));
+            throw new RuntimeErrorException(new Error("Non posso modificare, è vuoto"));
 
         calendarDaModificare.setUser(u.get());
         calendarDaModificare = cRepo.save(calendarDaModificare);
         return cServ.toDTO(calendarDaModificare);
     }
+
+    @DeleteMapping("{id}")
+    public void deleteCalendarEvent(@PathVariable int id) {
+
+        Optional<CalendarEvent> calendarDaEliminare = cRepo.findById(id);
+        if (calendarDaEliminare.isEmpty())
+            throw new RuntimeErrorException(new Error("Non si puo' cancellare, non esiste"));
+        cRepo.delete(calendarDaEliminare.get());
+    }
+
 }
