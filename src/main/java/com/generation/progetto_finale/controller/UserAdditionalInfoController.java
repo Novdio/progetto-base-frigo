@@ -19,6 +19,8 @@ import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.repository.UserAdditionalInfoRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.controller.exceptions.UserNotFoundException;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/info")
@@ -35,6 +37,12 @@ public class UserAdditionalInfoController {
 
         return infoService.toDTO(infoRepo.findById(id).get());
     }
+
+    @GetMapping("/monitoraggio/{id}")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
 
     @PostMapping("{id}")
     public UserAdditionalInfoDTO formUserInfo(@RequestBody UserAdditionalInfoDTO DTO, @PathVariable int id) {
