@@ -37,7 +37,7 @@ public class CalendarEventController {
 
     @GetMapping("{id}")
     public CalendarEventDTO getCalendarEventInfo(@PathVariable Integer id) {
-        return cServ.toDTO(cRepo.findById(id).get());
+        return cServ.toDTO(uRepo.findById(id).get().getCalendars().get(0));
     }
 
     @PostMapping("{id}")
