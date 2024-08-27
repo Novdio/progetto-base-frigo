@@ -31,11 +31,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .requestMatchers("/api/auth/**", "/swagger-ui/**", "/api/v3/api-docs/**",
-                                        "/api/auth/register ", "/api/calenda/**","/api/info/**") // gli asterischi sono per gli id
+                                        "/api/auth/register ", "/api/calendar/**") // gli asterischi sono per gli id
                                 .permitAll()
                                 // .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
                                 // .requestMatchers(HttpMethod.GET,"/api/soloperandrea").hasRole("ANDREA")
-                                .anyRequest().authenticated())
+                                .anyRequest().permitAll())
                 .httpBasic(withDefaults());
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -10,6 +10,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.generation.progetto_finale.auth.dto.AuthResponseDto;
 import com.generation.progetto_finale.auth.dto.CredentialsDto;
 import com.generation.progetto_finale.auth.dto.mappers.UserService;
@@ -56,9 +57,13 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(user);
 
+        UserDetails userDetails = (UserDetails) user.getPrincipal();
+        UserEntity u = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         String token = jwtGenerator.generateToken(user);
 
-        return new AuthResponseDto(token);
+        return new AuthResponseDto(token, u.getEmail(), u.getId());
     }
 
     @PostMapping("register")
@@ -72,7 +77,7 @@ public class AuthController {
         }
         Role roles = roleRepository.findByName("USER").get();
 
-        UserEntity user = uService.createUser(
+        uService.createUser(
                 registerDto.getUsername(),
                 passwordEncoder.encode((registerDto.getPassword())),
                 registerDto.getEmail(),
