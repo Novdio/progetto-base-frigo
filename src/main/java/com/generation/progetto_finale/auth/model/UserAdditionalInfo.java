@@ -38,4 +38,9 @@ public class UserAdditionalInfo {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CalendarEvent> calendars;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Alarm> alarms;
+
+    
+
 }

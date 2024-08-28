@@ -15,4 +15,8 @@ public class WebSocketService
     {
         messagingTemplate.convertAndSend("/topic/"+topicSuffix, payload);
     }
+    public void sendAlarm(String payload, Integer userId)
+    {
+        messagingTemplate.convertAndSend("/topic/alarm/"+userId, payload);
+    }
 }
