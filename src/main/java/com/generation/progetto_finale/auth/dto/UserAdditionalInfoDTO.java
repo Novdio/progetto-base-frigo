@@ -12,13 +12,11 @@ public class UserAdditionalInfoDTO {
 
     private String name;
     private String surname;
-
+    private List<String> ricette;
     private String sex;
     private Integer age;
     private List<Double> weight;
     private Double height;
-
     private List<Alarm> alarms;
-    
 
 }
