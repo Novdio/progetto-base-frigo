@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +30,11 @@ public class CalendarEvent {
     private int id;
 
     private LocalDate date;
-    private boolean checked = false;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "checked", joinColumns = @JoinColumn(name = "calendar_event_id"))
+    @Column(name = "vista", nullable = true)
+    private List<String> checked;
 
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MealEntity> meals;
