@@ -3,6 +3,8 @@ package com.generation.progetto_finale.auth.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -41,6 +43,7 @@ public class CalendarEvent {
 
     @ManyToOne
     @JoinColumn(name = "userAdditionalInfo_id")
+    @JsonIgnore
     private UserAdditionalInfo user;
 
 }
