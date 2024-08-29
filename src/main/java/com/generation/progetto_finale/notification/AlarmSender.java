@@ -47,7 +47,7 @@ public class AlarmSender {
     @Scheduled(fixedRate = 2000)
     public void prova() {
 
-        wServ.sendMessage("prova", "ciao");
+        // wServ.sendMessage("prova", "ciao");
 
     }
 }
