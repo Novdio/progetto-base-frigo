@@ -18,37 +18,35 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Component
-public class JWTGenerator 
-{
+public class JWTGenerator {
 	private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-	
+
 	@Value("${jwtduration}")
 	private long JWT_DURATION;
-	
-	public String generateToken(Authentication authentication) 
-	{
-	 	User userPrincipal = (User) authentication.getPrincipal();
-    	List<String> roles = userPrincipal.getAuthorities().stream()
-            .map(GrantedAuthority::getAuthority)
-			.map(role -> "ROLE_" + role) 
-            .collect(Collectors.toList());
+
+	public String generateToken(Authentication authentication) {
+		User userPrincipal = (User) authentication.getPrincipal();
+		List<String> roles = userPrincipal.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority)
+				.map(role -> "ROLE_" + role)
+				.collect(Collectors.toList());
 		Date currentDate = new Date();
-		Date expireDate = new Date(currentDate.getTime() + (JWT_DURATION*60*1000));
-		
+		Date expireDate = new Date(currentDate.getTime() + (JWT_DURATION * 60 * 1000));
+
 		String token = Jwts.builder()
 				.setSubject(userPrincipal.getUsername())
 				.claim("roles", roles)
-				.setIssuedAt( new Date())
+				.setIssuedAt(new Date())
 				.setExpiration(expireDate)
-				.signWith(key,SignatureAlgorithm.HS512)
+				.signWith(key, SignatureAlgorithm.HS512)
 				.compact();
 		System.out.println("New token :");
 		System.out.println(token);
 		return token;
 	}
-	
-	public String getUsernameFromJWT(String token){
-		
+
+	public String getUsernameFromJWT(String token) {
+
 		Claims claims = Jwts.parserBuilder()
 				.setSigningKey(key)
 				.build()
@@ -59,34 +57,33 @@ public class JWTGenerator
 
 	@SuppressWarnings("unchecked")
 	public List<String> getRolesFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-        return claims.get("roles", List.class);
-    }
+		Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+		return claims.get("roles", List.class);
+	}
 
-	
 	public boolean validateToken(String token) {
 		try {
 			Jwts.parserBuilder()
-			.setSigningKey(key)
-			.build()
-			.parseClaimsJws(token);
+					.setSigningKey(key)
+					.build()
+					.parseClaimsJws(token);
 			return true;
 		} catch (Exception ex) {
-			throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect",ex.fillInStackTrace());
+			throw new AuthenticationCredentialsNotFoundException("JWT was exprired or incorrect",
+					ex.fillInStackTrace());
 		}
 	}
 
-	public String generateFirstToken(String username) 
-	{
+	public String generateFirstToken(String username) {
 		Date currentDate = new Date();
-		Date expireDate = new Date(currentDate.getTime() + (JWT_DURATION*60*1000));
-		
+		Date expireDate = new Date(currentDate.getTime() + (JWT_DURATION * 60 * 1000));
+
 		String token = Jwts.builder()
 				.setSubject(username)
 				.claim("roles", "ROLE_USER")
-				.setIssuedAt( new Date())
+				.setIssuedAt(new Date())
 				.setExpiration(expireDate)
-				.signWith(key,SignatureAlgorithm.HS512)
+				.signWith(key, SignatureAlgorithm.HS512)
 				.compact();
 		System.out.println("New token :");
 		System.out.println(token);
