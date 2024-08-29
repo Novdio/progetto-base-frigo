@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.generation.progetto_finale.auth.dto.PutInfoDTO;
 import com.generation.progetto_finale.auth.dto.UserAdditionalInfoDTO;
 import com.generation.progetto_finale.auth.dto.mappers.UserAdditionalInfoService;
 import com.generation.progetto_finale.auth.model.UserAdditionalInfo;
@@ -20,7 +21,6 @@ import com.generation.progetto_finale.auth.repository.UserAdditionalInfoReposito
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.controller.exceptions.UserNotFoundException;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/info")
@@ -64,18 +64,19 @@ public class UserAdditionalInfoController {
 
     @PutMapping("{id}")
     public UserAdditionalInfoDTO modifyUserAdditionalInfo(@PathVariable int id,
-            @RequestBody UserAdditionalInfoDTO dto) {
+            @RequestBody PutInfoDTO dto) {
 
         Optional<UserAdditionalInfo> oldInfo = infoRepo.findById(id);
-        UserAdditionalInfo infoDaModificare = infoService.toEntity(dto);
         if (oldInfo.isEmpty())
             throw new UserNotFoundException("Informazione User non trovate");
-        infoDaModificare.setId(oldInfo.get().getId());
-        infoDaModificare.setUser(oldInfo.get().getUser());
-
+        UserAdditionalInfo infoDaModificare = oldInfo.get();
+        infoDaModificare.setAge(dto.getAge());
+        infoDaModificare.setName(dto.getName());
+        infoDaModificare.setSurname(dto.getSurname());
+        infoDaModificare.setSex(dto.getSex());
+        infoDaModificare.setHeight(dto.getHeight());
         infoDaModificare = infoRepo.save(infoDaModificare);
         return infoService.toDTO(infoDaModificare);
     }
-    
 
 }

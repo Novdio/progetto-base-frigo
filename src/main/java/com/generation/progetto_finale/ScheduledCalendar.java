@@ -13,11 +13,9 @@ import com.generation.progetto_finale.auth.model.DayEntity;
 import com.generation.progetto_finale.auth.model.Meal;
 import com.generation.progetto_finale.auth.model.MealEntity;
 import com.generation.progetto_finale.auth.model.UserAdditionalInfo;
-import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.model.WeekDay;
 import com.generation.progetto_finale.auth.repository.CalendarEventRepository;
 import com.generation.progetto_finale.auth.repository.UserAdditionalInfoRepository;
-import com.generation.progetto_finale.auth.repository.UserRepository;
 
 @Component
 public class ScheduledCalendar {
@@ -28,13 +26,14 @@ public class ScheduledCalendar {
     @Autowired
     CalendarEventRepository calendarEventRepository;;
 
-    //obiettivo di questo metodo è creare per ogni utente un calendar event con i 7 giorni della settimana, ognuno di essi con tutti i meal unchecked
-        //1. scorrere tutti gli utenti
-        //2. creare calendario nuovo
-        //3. creare lista di 7 day
-        //4. scorrere la lista di day
-        //5. per ognuno creare 5 pasti
-        //6. salvare tutto
+    // obiettivo di questo metodo è creare per ogni utente un calendar event con i 7
+    // giorni della settimana, ognuno di essi con tutti i meal unchecked
+    // 1. scorrere tutti gli utenti
+    // 2. creare calendario nuovo
+    // 3. creare lista di 7 day
+    // 4. scorrere la lista di day
+    // 5. per ognuno creare 5 pasti
+    // 6. salvare tutto
     @Scheduled(cron = "0 1 0 * * MON")
     // @Scheduled(fixedRate = 30000)
     public void createCalendarForTheWeek() {
