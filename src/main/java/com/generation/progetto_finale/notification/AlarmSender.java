@@ -41,13 +41,7 @@ public class AlarmSender {
 
         for (Alarm alarm : toSend) {
             wServ.sendAlarm("Sveglia delle " + time, alarm.getUser().getUser().getId());
+            System.out.println("Sveglia delle " + time + " " + alarm.getUser().getUser().getId());
         }
-    }
-
-    @Scheduled(fixedRate = 2000)
-    public void prova() {
-
-        // wServ.sendMessage("prova", "ciao");
-
     }
 }
