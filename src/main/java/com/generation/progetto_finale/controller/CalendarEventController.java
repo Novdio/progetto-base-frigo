@@ -47,7 +47,7 @@ public class CalendarEventController {
     @GetMapping("{id}")
     public CalendarEventDTO getCalendarEventInfo(@PathVariable Integer id) {
         UserAdditionalInfo u = uRepo.findByUserId(id);
-        return cServ.toDTO(u.getCalendars().getLast());
+        return cServ.toDTO(u.getCalendars().get(u.getCalendars().size()-1));
     }
 
     @PostMapping("{id}")
@@ -74,7 +74,7 @@ public class CalendarEventController {
             throw new RuntimeErrorException(new Error("Non posso modificare, è vuoto"));
 
         calendarDaModificare.setUser(u);
-        calendarDaModificare.setId(u.getCalendars().getLast().getId());
+        calendarDaModificare.setId(u.getCalendars().get(u.getCalendars().size()-1).getId());
         calendarDaModificare = cRepo.save(calendarDaModificare);
         return cServ.toDTO(calendarDaModificare);
     }
