@@ -58,7 +58,7 @@ public class MealController {
 
     @PutMapping("{id}")
     public MealEntityDTO modifyMeal(@PathVariable int id, @RequestBody MealEntityDTO dto) {
-
+        System.out.println(dto);
         MealEntity mealDaModificare = mServ.toEntity(dto);
         Optional<MealEntity> c = mRepo.findById(id);
         if (c.isEmpty())
