@@ -33,6 +33,8 @@ public class UserAdditionalInfo {
     private String sex;
     private Integer age;
 
+    private List<String> ricette;
+
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "weight", joinColumns = @JoinColumn(name = "user_info_id"))
     @Column(name = "weight", nullable = true)
@@ -46,5 +48,8 @@ public class UserAdditionalInfo {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CalendarEvent> calendars;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Alarm> alarms;
 
 }

@@ -2,6 +2,8 @@ package com.generation.progetto_finale.auth.dto;
 
 import java.util.List;
 
+import com.generation.progetto_finale.auth.model.Alarm;
+
 import lombok.Data;
 
 @Data
@@ -10,23 +12,11 @@ public class UserAdditionalInfoDTO {
 
     private String name;
     private String surname;
-
+    private List<String> ricette;
     private String sex;
     private Integer age;
     private List<Double> weight;
     private Double height;
-
-    // Aggiungere BMI e IBW
-    public Double getIdealWeight() {
-        switch (sex) {
-            case "M":
-                return 50 + (0.91 * (height - 152.4));
-            case "F":
-                return 45.5 + (0.91 * (height - 152.4));
-            default:
-                throw new RuntimeException();
-
-        }
-    }
+    private List<Alarm> alarms;
 
 }
