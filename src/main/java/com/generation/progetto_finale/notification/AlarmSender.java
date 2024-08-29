@@ -39,15 +39,10 @@ public class AlarmSender {
 
         List<Alarm> toSend = aRepo.findByTimeAndDaysContains(LocalTime.parse(time), dayOfWeek);
 
-        for (Alarm alarm : toSend) {
-            wServ.sendAlarm("Sveglia delle " + time, alarm.getUser().getUser().getId());
+        for (Alarm alarm : toSend) 
+        {
+            wServ.sendAlarm("Sveglia delle "+time, alarm.getUser().getUser().getId());    
+            System.out.println("Sveglia delle "+time+" "+ alarm.getUser().getUser().getId());
         }
-    }
-
-    @Scheduled(fixedRate = 2000)
-    public void prova() {
-
-        wServ.sendMessage("prova", "ciao");
-
     }
 }
