@@ -15,7 +15,7 @@ public interface MealMapper {
 
     MealEntityDTO toDTO(MealEntity m);
 
-    @Mapping(target = "calendar", ignore = true)
+    @Mapping(target = "day", ignore = true)
     MealEntity toEntity(MealEntityDTO dto);
 
     default String map(Meal meal) {

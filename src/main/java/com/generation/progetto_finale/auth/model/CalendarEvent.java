@@ -29,15 +29,11 @@ public class CalendarEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // è il lunedì
     private LocalDate date;
 
-    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "checked", joinColumns = @JoinColumn(name = "calendar_event_id"))
-    @Column(name = "vista", nullable = true)
-    private List<String> checked;
-
     @OneToMany(mappedBy = "calendar", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MealEntity> meals;
+    private List<DayEntity> days;
 
     @ManyToOne
     @JoinColumn(name = "userAdditionalInfo_id")

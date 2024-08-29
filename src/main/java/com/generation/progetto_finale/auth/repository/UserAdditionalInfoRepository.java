@@ -6,5 +6,5 @@ import com.generation.progetto_finale.auth.model.UserAdditionalInfo;
 
 public interface UserAdditionalInfoRepository extends JpaRepository<UserAdditionalInfo, Integer>
 {
-
+    UserAdditionalInfo findByUserId(Integer userId);
 }
