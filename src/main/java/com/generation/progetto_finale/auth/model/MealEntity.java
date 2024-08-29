@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -39,8 +41,10 @@ public class MealEntity {
     private List<String> pasti;
 
     @ManyToOne
-    @JoinColumn(name = "calendarEvent_id")
+    @JoinColumn(name = "day_id")
     @JsonIgnore
-    private CalendarEvent calendar;
+    private DayEntity day;
+
+    private boolean checked;
 
 }

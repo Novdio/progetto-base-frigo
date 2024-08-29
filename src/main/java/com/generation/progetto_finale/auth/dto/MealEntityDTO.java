@@ -8,5 +8,6 @@ public class MealEntityDTO {
 
     private String meal;
     private List<String> pasti; // ogni mealType ha dei pasti
+    private Boolean checked;
 
 }
