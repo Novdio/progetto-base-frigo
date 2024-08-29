@@ -6,4 +6,12 @@ import lombok.Data;
 public class IaRequestDTO {
 
     private String question;
+
+    public IaRequestDTO() {
+    }
+
+    public IaRequestDTO(String question) {
+
+        this.question = question;
+    }
 }

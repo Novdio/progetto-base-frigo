@@ -19,6 +19,8 @@ import com.generation.progetto_finale.auth.model.UserEntity;
 import com.generation.progetto_finale.auth.repository.UserAdditionalInfoRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import com.generation.progetto_finale.controller.exceptions.UserNotFoundException;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/info")
@@ -74,5 +76,6 @@ public class UserAdditionalInfoController {
         infoDaModificare = infoRepo.save(infoDaModificare);
         return infoService.toDTO(infoDaModificare);
     }
+    
 
 }

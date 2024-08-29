@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.progetto_finale.auth.dto.CalendarEventDTO;
+import com.generation.progetto_finale.auth.dto.MealEntityDTO;
 import com.generation.progetto_finale.auth.dto.mappers.CalendarEventService;
+import com.generation.progetto_finale.auth.dto.mappers.MealService;
 import com.generation.progetto_finale.auth.model.CalendarEvent;
+import com.generation.progetto_finale.auth.model.MealEntity;
 import com.generation.progetto_finale.auth.model.UserAdditionalInfo;
 import com.generation.progetto_finale.auth.repository.CalendarEventRepository;
+import com.generation.progetto_finale.auth.repository.MealRepository;
 import com.generation.progetto_finale.auth.repository.UserAdditionalInfoRepository;
 import com.generation.progetto_finale.auth.repository.UserRepository;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,10 +38,16 @@ public class CalendarEventController {
     UserRepository userRepository;
     @Autowired
     UserAdditionalInfoRepository uRepo;
+    @Autowired
+    MealService mServ;
+    @Autowired
+    MealRepository mRepo;
+
 
     @GetMapping("{id}")
     public CalendarEventDTO getCalendarEventInfo(@PathVariable Integer id) {
-        return cServ.toDTO(cRepo.findById(id).get());
+        UserAdditionalInfo u = uRepo.findByUserId(id);
+        return cServ.toDTO(u.getCalendars().get(u.getCalendars().size()-1));
     }
 
     @PostMapping("{id}")
@@ -58,12 +68,13 @@ public class CalendarEventController {
     public CalendarEventDTO modifyCalendarEvent(@PathVariable int id, @RequestBody CalendarEventDTO dto) {
 
         CalendarEvent calendarDaModificare = cServ.toEntity(dto);
-        Optional<UserAdditionalInfo> u = uRepo.findById(id);
+        UserAdditionalInfo u = uRepo.findByUserId(id);
 
-        if (u.isEmpty())
+        if (u == null)
             throw new RuntimeErrorException(new Error("Non posso modificare, è vuoto"));
 
-        calendarDaModificare.setUser(u.get());
+        calendarDaModificare.setUser(u);
+        calendarDaModificare.setId(u.getCalendars().get(u.getCalendars().size()-1).getId());
         calendarDaModificare = cRepo.save(calendarDaModificare);
         return cServ.toDTO(calendarDaModificare);
     }
@@ -76,5 +87,5 @@ public class CalendarEventController {
             throw new RuntimeErrorException(new Error("Non si puo' cancellare, non esiste"));
         cRepo.delete(calendarDaEliminare.get());
     }
-
+    
 }
