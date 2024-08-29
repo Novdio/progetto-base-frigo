@@ -43,6 +43,7 @@ public class AlarmSender
         for (Alarm alarm : toSend) 
         {
             wServ.sendAlarm("Sveglia delle "+time, alarm.getUser().getUser().getId());    
+            System.out.println("Sveglia delle "+time+" "+ alarm.getUser().getUser().getId());
         }
     }
 }
