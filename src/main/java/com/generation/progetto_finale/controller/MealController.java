@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.generation.progetto_finale.auth.dto.MealEntityDTO;
 import com.generation.progetto_finale.auth.dto.mappers.MealService;
 import com.generation.progetto_finale.auth.model.CalendarEvent;
+import com.generation.progetto_finale.auth.model.DayEntity;
 import com.generation.progetto_finale.auth.model.MealEntity;
 import com.generation.progetto_finale.auth.repository.CalendarEventRepository;
+import com.generation.progetto_finale.auth.repository.DayRepository;
 import com.generation.progetto_finale.auth.repository.MealRepository;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -31,6 +33,8 @@ public class MealController {
     MealService mServ;
     @Autowired
     CalendarEventRepository cRepo;
+    @Autowired
+    DayRepository dRepo;
 
     @GetMapping("{id}")
     public MealEntityDTO getMealEntityInfo(@PathVariable Integer id) {
@@ -42,11 +46,11 @@ public class MealController {
     public MealEntityDTO formMeal(@RequestBody MealEntityDTO DTO, @PathVariable int id) {
 
         MealEntity mealDaCreare = mServ.toEntity(DTO);
-        Optional<CalendarEvent> c = cRepo.findById(id);
+        Optional<DayEntity> c = dRepo.findById(id);
         if (c.isEmpty())
             throw new RuntimeErrorException(new Error("shit"));
 
-        mealDaCreare.setCalendar(c.get());
+        mealDaCreare.setDay(c.get());;
         mealDaCreare = mRepo.save(mealDaCreare);
 
         return mServ.toDTO(mealDaCreare);
@@ -59,7 +63,7 @@ public class MealController {
         Optional<MealEntity> c = mRepo.findById(id);
         if (c.isEmpty())
             throw new RuntimeErrorException(new Error("Non posso modificare meal"));
-        mealDaModificare.setCalendar(c.get().getCalendar());
+        mealDaModificare.setDay(c.get().getDay());
         mealDaModificare.setId(id);
         mealDaModificare = mRepo.save(mealDaModificare);
         return mServ.toDTO(mealDaModificare);

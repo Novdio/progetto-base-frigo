@@ -14,15 +14,14 @@ import com.generation.progetto_finale.auth.model.Alarm;
 import com.generation.progetto_finale.auth.repository.AlarmRepository;
 
 @Component
-public class AlarmSender 
-{
+public class AlarmSender {
     @Autowired
     AlarmRepository aRepo;
     @Autowired
     WebSocketService wServ;
+
     @Scheduled(cron = "0 */5 * * * * ")
-    public void sendAlarm()
-    {
+    public void sendAlarm() {
         LocalDateTime now = LocalDateTime.now();
 
         // Crea un formatter per il giorno della settimana in italiano
@@ -33,12 +32,12 @@ public class AlarmSender
 
         // Formatta il giorno della settimana
         String dayOfWeek = now.format(dayFormatter);
-        dayOfWeek = dayOfWeek.substring(0,1).toUpperCase()+dayOfWeek.substring(1).toLowerCase();
+        dayOfWeek = dayOfWeek.substring(0, 1).toUpperCase() + dayOfWeek.substring(1).toLowerCase();
 
         // Formatta l'ora
         String time = now.format(timeFormatter);
 
-        List<Alarm> toSend=aRepo.findByTimeAndDaysContains(LocalTime.parse(time),dayOfWeek);
+        List<Alarm> toSend = aRepo.findByTimeAndDaysContains(LocalTime.parse(time), dayOfWeek);
 
         for (Alarm alarm : toSend) 
         {
