@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,12 @@ import com.generation.progetto_finale.auth.dto.IaRequestDTO;
 public class IaController {
 
         @PostMapping("/fairicetta")
-        public String faiRicetta(@RequestBody IaRequestDTO dto) throws JsonProcessingException {
+        public ResponseEntity<?> faiRicetta(@RequestBody IaRequestDTO dto) throws JsonProcessingException {
 
                 System.out.println(dto);
                 String msg = "Scrivimi una ricetta con tutti i passaggi avente come ingredienti: " + dto.getQuestion();
                 String result = callIa(msg);
-                return result;
+                return ResponseEntity.ok(new IaRequestDTO(result));
         }
 
         @GetMapping("/consigliaricetta")
@@ -76,4 +77,5 @@ public class IaController {
                 // Stampa del risultato
                 return content;
         }
+
 }

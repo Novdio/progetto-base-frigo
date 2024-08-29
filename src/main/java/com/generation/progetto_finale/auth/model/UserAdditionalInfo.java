@@ -3,7 +3,11 @@ package com.generation.progetto_finale.auth.model;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +32,14 @@ public class UserAdditionalInfo {
 
     private String sex;
     private Integer age;
+
+    private List<String> ricette;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "weight", joinColumns = @JoinColumn(name = "user_info_id"))
+    @Column(name = "weight", nullable = true)
     private List<Double> weight;
+
     private Double height;
 
     @OneToOne
@@ -37,5 +48,8 @@ public class UserAdditionalInfo {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CalendarEvent> calendars;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Alarm> alarms;
 
 }

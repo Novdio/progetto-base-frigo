@@ -82,5 +82,6 @@ public class UserAdditionalInfoController {
         infoDaModificare = infoRepo.save(infoDaModificare);
         return infoService.toDTO(infoDaModificare);
     }
+    
 
 }
