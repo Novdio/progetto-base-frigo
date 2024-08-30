@@ -4,7 +4,7 @@ public enum Meal {
 
     COLAZIONE,
     SPUNTINO,
-    MERENDA,
     PRANZO,
+    MERENDA,
     CENA
 }
